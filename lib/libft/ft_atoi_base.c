@@ -6,13 +6,13 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 14:27:05 by abiestro          #+#    #+#             */
-/*   Updated: 2018/04/11 11:35:04 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/02/20 15:42:13 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdio.h>
 
-static int			ft_check(char *base)
+int			ft_check(char *base)
 {
 	int i;
 	int j;
@@ -40,7 +40,7 @@ static int			ft_check(char *base)
 	return (i);
 }
 
-static int			ft_belongs_base(char c, char *base)
+int			ft_belongs_base(char c, char *base)
 {
 	int i;
 
@@ -54,7 +54,7 @@ static int			ft_belongs_base(char c, char *base)
 	return (-1);
 }
 
-int					ft_atoi_base(char *str, char *base)
+int			ft_atoi_base(char *str, char *base)
 {
 	int value;
 	int i;

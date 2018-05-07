@@ -6,35 +6,58 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 12:15:12 by abiestro          #+#    #+#             */
-/*   Updated: 2018/04/10 16:30:06 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/07 20:19:32 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(int n)
+static void reverse(char *str, int length)
 {
-	char			*str;
-	unsigned int	nb;
-	int				i;
-	int				sign;
+	int start;
+	int end;
+	char tmp;
 
-	i = 1;
-	nb = (n < 0) ? -n : n;
-	sign = 0;
-	if (n < 0 && i++)
-		sign = 1;
-	while ((n /= 10))
-		i++;
-	if ((str = malloc(sizeof(char) * (i + 1))) == 0)
-		return (0);
-	str[i] = '\0';
-	while (i--)
+	start = 0;
+	end = length - 1;
+	while (start < end)
 	{
-		str[i] = nb % 10 + 48;
-		nb /= 10;
+		tmp = str[start];
+		str[start] = str[end];
+		str[end] = tmp;
+		start++;
+		end--;
 	}
-	if (sign)
-		str[0] = '-';
-	return (str);
+}
+char* ft_itoa(intmax_t num, char* str, int base)
+{
+	int i;
+	int isNegative;
+	int rem;
+
+	i = 0;
+	isNegative = 0;
+	
+	if (num == 0)
+	{
+		str[i++] = '0';
+		str[i] = '\0';
+		return str;
+	}
+	if (num < 0 && base == 10)
+	{
+		isNegative = 1;
+		num = -num;
+	}
+	while (num != 0)
+	{
+		rem = num % base;
+		str[i++] = (rem > 9)? (rem-10) + 'a' : rem + '0';
+		num = num/base;
+	}
+	if (isNegative)
+		str[i++] = '-';
+	str[i] = '\0';
+	reverse(str, i);
+	return str;
 }

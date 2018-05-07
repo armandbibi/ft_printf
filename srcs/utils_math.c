@@ -1,46 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   utils_math.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/07 16:28:25 by abiestro         ###   ########.fr       */
+/*   Created: 2018/05/03 16:24:32 by abiestro          #+#    #+#             */
+/*   Updated: 2018/05/07 15:32:09 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-
-
-int ft_printf(const char *format, ...)
+int		ft_log_discret(int nb, int base)
 {
-	va_list argl;
-	char buffer[BUFF_SIZE];
 	int i;
-	char *bufi;
-
 	i = 0;
-	bufi = buffer;
-	va_start(argl, format);
-	while (*format)
+	if (nb < 0)
 	{
-		if (*format != '%')
-		{
-			*bufi = *format;
-			bufi++;
-			format++;
-		}
-		else
-		{
-			 i = build_arg(format, bufi, va_arg(argl, void*));
-			 while (*bufi)
-				 bufi++;
-			 format = &format[i];
-		}
+		nb = -nb;
+		i++;
 	}
-	*bufi = 0;
-	write (1, buffer, ft_strlen(buffer));
-	return 0;
+	while (nb >= base)
+	{
+		nb = nb / base;
+		i++;
+	}
+	return i;
 }

@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/01 23:58:22 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/07 20:32:50 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,13 @@ PATH_OBJS		= ./objs
 
 INCLUDES		= ft_printf.h 
 
-ITEMS			= ft_printf
+ITEMS			= ft_printf \
+				  ft_setarg \
+				  arg_octal \
+				  arg_string \
+				  arg_pointeur \
+				  arg_int \
+				  utils_math
 
 LIBS			= libft
 
