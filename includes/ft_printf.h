@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/07 20:42:29 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/08 19:25:16 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@
 # include <stdarg.h>
 
 # define BUFF_SIZE  750
-# define STRING 's'
-# define INT 'i'
+
+# define FLAG argument->flag
+# define WIDTH argument->width
+# define PRECISION argument->precision
+# define TYPE argument->type
+# define VALUE argument->value
 
 typedef struct	t_arg
 {
-	char		type;
+	char		flag;
 	void		*value;
+	int			width;
+	char		type;
+	int			precision;
 }				s_arg;
 
+int				ft_parse_arg(const char *format, s_arg *argument);
+int 			ft_set_arg(s_arg *argument, void *value);
 int				build_arg(const char *format, char *buffer, void *arg);
 int				ft_printf(const char *format, ...);
 

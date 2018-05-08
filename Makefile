@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/07 20:32:50 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/08 19:25:53 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ PATH_OBJS		= ./objs
 INCLUDES		= ft_printf.h 
 
 ITEMS			= ft_printf \
+				  parse_struct \
+				  arg_in_struct \
 				  ft_setarg \
 				  arg_octal \
 				  arg_string \
