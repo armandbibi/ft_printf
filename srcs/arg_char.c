@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_octal.c                                         :+:      :+:    :+:   */
+/*   arg_char.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/07 16:47:42 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/09 22:35:21 by abiestro         ###   ########.fr       */
+/*   Created: 2018/05/08 19:53:47 by abiestro          #+#    #+#             */
+/*   Updated: 2018/05/09 22:09:15 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-
-int     ft_conv_octal(const char *format, char *buffer, s_arg *argument, int value)
+int ft_conv_char(const char *format, char *buffer, s_arg *argument, char value)
 {
-	int i;
-
-	i = 0;
-	if (PTF_FLAG_SPACE(argument->flags))
-	{
-		i++;
-		*buffer++ = ' ';
-	}
-	i += ft_log_discret(10, 8) + 1;
 	if (PTF_FLAG_MINUS(argument->flags))
-		buffer = ft_itoa(value, buffer, 8);
-	while (argument->precision-- > i)
-		*buffer++ = '0';
+		*buffer++ = value;
+	while (argument->width-- > 1)
+		*buffer++ = ' ';
 	if (!PTF_FLAG_MINUS(argument->flags))
-		buffer = ft_itoa(value, buffer, 8);
-	return (i);
+		*buffer = value;
+	return (0);
 }

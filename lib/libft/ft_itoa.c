@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 12:15:12 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/07 20:19:32 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/10 16:44:53 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,31 @@ static void reverse(char *str, int length)
 		end--;
 	}
 }
+
+
+char* ft_unsigned_itoa(uintmax_t num, char* str, int base, int max_size)
+{
+	int i;
+	unsigned int rem;
+
+	i = 0;
+	if (num == 0)
+	{
+		str[i++] = '0';
+		str[i] = '\0';
+		return str;
+	}
+	while (num != 0 && max_size-- > 0)
+	{
+		rem = num % base;
+		str[i++] = (rem > 9)? (rem-10) + 'a' : rem + '0';
+		num = num/base;
+	}
+	str[i] = '\0';
+	reverse(str, i);
+	return (str);
+}
+
 char* ft_itoa(intmax_t num, char* str, int base)
 {
 	int i;
@@ -37,7 +62,7 @@ char* ft_itoa(intmax_t num, char* str, int base)
 
 	i = 0;
 	isNegative = 0;
-	
+
 	if (num == 0)
 	{
 		str[i++] = '0';

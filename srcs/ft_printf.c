@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/08 19:27:22 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/10 17:50:09 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static void print_composants(s_arg argument)
 {
 
-	printf("\n\n\nargument flag     =  *** %c ***\n", argument.flag);
+	printf("\n\n\nargument flag     = *** %c ***\n", argument.flag);
+	printf("argument flags     = *** %d ***\n", argument.flags);
 	printf("argument width     = *** %d ***\n", argument.width);
 	printf("argument modifier  = *** %c ***\n", argument.type);
 	printf("argument precision = *** %d ***\n\n\n", argument.precision);
@@ -45,8 +46,8 @@ int ft_printf(const char *format, ...)
 		else
 		{
 			i = ft_parse_arg(format, &argument);
-			ft_set_arg(&argument, va_arg(argl, void*));
-			print_composants(argument);
+//print_composants(argument);
+			build_arg(format, bufi, &argument, va_arg(argl, void*));
 			while (*bufi)
 				bufi++;
 			format = &format[i];
@@ -54,5 +55,5 @@ int ft_printf(const char *format, ...)
 	}
 	*bufi = '\0';
 	write (1, buffer, ft_strlen(buffer));
-	return 0;
+	return (ft_strlen(buffer));
 }

@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/08 19:25:53 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/09 23:25:57 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,11 @@ INCLUDES		= ft_printf.h
 
 ITEMS			= ft_printf \
 				  parse_struct \
-				  arg_in_struct \
 				  ft_setarg \
+				  arg_char \
 				  arg_octal \
+				  arg_hexa \
+				  arg_hashtag \
 				  arg_string \
 				  arg_pointeur \
 				  arg_int \
