@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 23:19:21 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/10 20:39:32 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/11 15:03:05 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,19 @@ int     ft_conv_hexa(const char *format, char *buffer, s_arg *argument, int valu
 
 	if (PTF_FLAG_SPACE(argument->flags))
 		*buffer++ = ' ';
-	if (PTF_FLAG_HASHTAG(argument->flags)&& PTF_FLAG_ZERO(argument->flags) && value != 0 && (*buffer++ = '0'))
+	i = ft_log_discret(value, 16) + 1 + ((PTF_FLAG_HASHTAG(argument->flags) &&  value) ? 2 : 0);
+	if (PTF_FLAG_ZERO(argument->flags) && value != 0 &&  PTF_FLAG_HASHTAG(argument->flags) && (*buffer++ = '0'))
 		*buffer++ = argument->type;
-	i = ft_log_discret(value, 16) + (PTF_FLAG_HASHTAG(argument->flags) ? 3 : 1);
 	while (!PTF_FLAG_MINUS(argument->flags) && argument->width-- > i)
 	{
-		if(PTF_FLAG_ZERO(argument->flags))
+		if (PTF_FLAG_ZERO(argument->flags))
 			*buffer++ = '0';
-		else
+		else 
 			*buffer++ = ' ';
 	}
-	if (PTF_FLAG_HASHTAG(argument->flags)&& !PTF_FLAG_ZERO(argument->flags) && value != 0 && (*buffer++ = '0'))
+	if (!PTF_FLAG_ZERO(argument->flags) && value != 0 && PTF_FLAG_HASHTAG(argument->flags) && (*buffer++ = '0'))
 		*buffer++ = argument->type;
-	if (value != 0 && argument->precision != 0)
-		ft_unsigned_itoa(value, buffer, 16, 8);
+	ft_unsigned_itoa(value, buffer, 16, 8);
 	while (*buffer)
 	{
 		if (argument->type == 'X' && *buffer >= 'a' && *buffer <= 'f')

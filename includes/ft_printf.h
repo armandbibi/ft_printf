@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/10 19:45:06 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/12 18:04:35 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	t_arg
 	int			flag_plus;
 	int			flag_zero;
 	int			flag_space;
-	void		*value;
+	int			is_negative;
 	int			width;
 	char		type;
 	int			precision;
@@ -58,10 +58,11 @@ int				ft_printf(const char *format, ...);
 int 			ft_conv_char(const char *format, char *buffer, s_arg *argument, char value);
 int 			ft_conv_string(const char *format, char *buffer, s_arg *argument, char *value);
 int     		ft_conv_octal(const char *format, char *buffer, s_arg *argument, int value);
-int     		ft_conv_integer(const char *format, char *buffer, s_arg *argument, int value);
+int     		ft_conv_integer(char *buffer, s_arg *argument, intmax_t value);
+int     		ft_conv_unsigned_integer(const char *format, char *buffer, s_arg *argument, int value);
 int     		ft_conv_hashtag(const char *format, char *buffer, s_arg *argument, int value);
 int				ft_conv_hexa(const char *format, char *buffer, s_arg *argument, int  value);
-int				ft_conv_pointeur(char *buffer, intmax_t arg);
+int				ft_conv_pointeur(const char *format, char *buffer, s_arg *argument, int  value);
 int				ft_conv_uint(char *buffer, unsigned int arg);
 
 int				ft_log_discret(unsigned int nb, int base);

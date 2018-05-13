@@ -6,13 +6,13 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/09 23:25:57 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/12 18:27:53 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libftprintf.a
 CC		= gcc
-CFLAGS	+= -Wall -Wextra
+CFLAGS	= -Wall -Wextra
 
 PATH_INCLUDES	= ./includes
 PATH_SOURCES	= ./srcs
@@ -40,17 +40,17 @@ SRCS		= $(addprefix $(PATH_SOURCES)/,$(ITEMS:=.c))
 OBJS		= $(addprefix $(PATH_OBJS)/, $(ITEMS:=.o))
 INCLUDES	= $(addprefix $(PATH_INCLUDES)/, ft_printf.h)
 LIB_OBJ 	= $(addprefix $(PATH_LIBS)/$(LIBS)/, $(pute))
-salope		= $(shell cd $(PATH_LIBS)/$(LIBS) && make print_obj | grep -o '[a-z_]\{0,30\}\.o'| sed -e 's/^/lib\/libft\//' | tr '\n' ' ')
+salope		= $(shell cd $(PATH_LIBS)/$(LIBS) && make print_obj | grep -o '[a-z_]\{0,30\}\.o'| sed -e 's/^/lib\/libft\//' | tr '\n' ' ' )
 
 all:$(NAME)
 
 $(NAME):$(OBJS)
 		cd $(PATH_LIBS)/$(LIBS) && $(MAKE)
 		cp $(PATH_LIBS)/$(LIBS)/$(LIBS).h $(PATH_INCLUDES)
-		ar -rcs  $(NAME) $(OBJS) $(salope)
+		ar -rcs $(NAME) $(OBJS) $(salope)
 
 $(PATH_OBJS)/%.o : $(PATH_SOURCES)/%.c
-	$(CC) -c  $<  -o $@
+	$(CC) -c $(CFLAGS)  $<  -o $@
 
 get_lib_obj:
 	@cd $(PATH_LIBS)/$(LIBS) && $(MAKE) print_obj | grep -o '[[a-z]*_]*[a-z]*\.o'| sed -e 's/^/libs\/libft\//' | tr '\n' ' '

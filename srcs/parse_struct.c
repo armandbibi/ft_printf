@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/10 19:43:45 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/11 13:13:00 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ static int	get_width(const char *format, s_arg *argument)
 
 static int	get_precision(const char *format, s_arg *argument)
 {
+	int i;
+
+	i = 0;
 	if (*format != '.')
 	{
 		argument->precision = 1;
@@ -65,7 +68,9 @@ static int	get_precision(const char *format, s_arg *argument)
 	}
 	format++;
 	argument->precision = ft_atoi(format);
-	return (ft_log_discret(argument->precision, 10) + 2);
+	while (format[i] >= '0' && format[i] <= '9')
+		i++;
+	return (i + 1);
 }
 
 static int	get_modifier(const char *format, s_arg *argument)

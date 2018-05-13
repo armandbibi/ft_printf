@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:23:56 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/10 17:18:11 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/12 19:28:46 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ int main(int ac, char **av)
 	ft_printf("ft_printf: int with precision : .10d de 125 : --- %.10d ---\n", 125);
 	printf("   printf: int with precision : .10d de 125 : --- %.10d ---\n\n", 125);
 
-	ft_printf("ft_printf: int with precision : .10d de 125 : --- %.10d ---\n", 125);
-	printf("   printf: int  : .10d de 125 : --- %.10d ---\n\n", 125);
+	ft_printf("ft_printf: int : 10d de 125 : --- %10d ---\n", 125);
+	printf("   printf: int : 10d de 125 : --- %10d ---\n\n", 125);
 
-	ft_printf("ft_printf: -42X : ---%-10X---\n", -42);
-	printf("   printf: -42X : ---%-10X---\n\n", -42);
 }
