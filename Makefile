@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/12 18:27:53 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/14 12:31:38 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ ITEMS			= ft_printf \
 				  arg_string \
 				  arg_pointeur \
 				  arg_int \
+				  arg_unsigned_int \
 				  utils_math
 
 LIBS			= libft
@@ -57,11 +58,11 @@ get_lib_obj:
 
 clean:
 	    cd $(PATH_LIBS)/$(LIBS) && $(MAKE) clean
-		    rm -f $(OBJS)
+		rm -f $(OBJS)
 
 fclean: clean
 	    cd $(LIBFTPASS) && rm -rf libft.a
-		    rm -rf $(NAME)
+		rm -rf $(NAME)
 
 re: fclean all
 

@@ -6,22 +6,11 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/11 13:05:15 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 14:00:12 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-
-static void print_composants(s_arg argument)
-{
-
-	printf("\n\n\nargument flag     = *** %c ***\n", argument.flag);
-	printf("argument flags     = *** %d ***\n", argument.flags);
-	printf("argument width     = *** %d ***\n", argument.width);
-	printf("argument modifier  = *** %c ***\n", argument.type);
-	printf("argument precision = *** %d ***\n\n\n", argument.precision);
-}
-
 
 int ft_printf(const char *format, ...)
 {
@@ -46,8 +35,7 @@ int ft_printf(const char *format, ...)
 		else
 		{
 			i = ft_parse_arg(format, &argument);
-//print_composants(argument);
-			build_arg(format, bufi, &argument, va_arg(argl, void*));
+			build_arg(format, bufi, &argument, va_arg(argl, uintmax_t));
 			while (*bufi)
 				bufi++;
 			format = &format[i];

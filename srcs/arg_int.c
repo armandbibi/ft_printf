@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/13 13:56:41 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 14:25:06 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 
 	b = buffer;
 	p = argument->precision;
-	len = ft_strlen(tmp);
+		len = ft_strlen(tmp);
 	while (p > len)
 	{
 		*buffer = '0';
@@ -65,8 +65,8 @@ static int	add_width(char *buffer, s_arg *argument, int len)
 	width = argument->width;
 	pre = argument->precision;
 	sub = (pre > len) ? pre: len;
-	if ((argument->is_negative == 1 /*|| PTF_FLAG_PLUS(argument->flags) 
-		|| PTF_FLAG_SPACE(argument->flags)i*/))
+	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags) 
+		|| PTF_FLAG_SPACE(argument->flags)))
 		width--;
 	if (width)
 		while (width - 1 >= sub)
@@ -89,16 +89,7 @@ int			ft_conv_integer(char *buffer, s_arg *argument, intmax_t value)
 	char *t;
 	t = tmp;
 	len = 0;
-	if ((int)value < 0)
-	{
-		argument->is_negative = 1;
-		ft_unsigned_itoa((int)-value, t, 10, 20);
-	}
-	else
-	{
-		argument->is_negative = 0;
-		ft_unsigned_itoa(value, tmp, 10, 8);
-	}
+	ft_cast_itoa(value, t, argument, 10);
 	if (!PTF_FLAG_MINUS(argument->flags))
 	{
 		if (!PTF_FLAG_ZERO(argument->flags))
@@ -111,7 +102,5 @@ int			ft_conv_integer(char *buffer, s_arg *argument, intmax_t value)
 		len += add_sign(&buffer[len], argument);
 	len += add_precision(&buffer[len], argument, tmp);
 	if (PTF_FLAG_MINUS(argument->flags))
-	{
 		len += add_width(&buffer[len], argument, ft_strlen(tmp));
-	}
 }
