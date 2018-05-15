@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 16:26:50 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:26:27 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int				ft_printf(const char *format, ...);
 
 int 			ft_conv_char(const char *format, char *buffer, s_arg *argument, char value);
 int 			ft_conv_string(const char *format, char *buffer, s_arg *argument, char *value);
-int     		ft_conv_octal(const char *format, char *buffer, s_arg *argument, int value);
+int     		ft_conv_octal(char *buffer, s_arg *argument, uintmax_t value);
 int     		ft_conv_integer(char *buffer, s_arg *argument, intmax_t value);
 int     		ft_conv_unsigned_integer(char *buffer, s_arg *argument, uintmax_t value);
 int     		ft_conv_hashtag(const char *format, char *buffer, s_arg *argument, int value);

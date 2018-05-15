@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 14:04:25 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 16:27:50 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:27:06 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		build_arg(const char *format, char *buffer,s_arg *argument, uintmax_t *valu
 	if (TYPE == 'i' || TYPE == 'D' || TYPE == 'd')
 		ft_conv_integer( buffer, argument, (intmax_t)value);
 	if (TYPE == 'o' || TYPE == 'O')
-		ft_conv_octal(format, buffer, argument, (int)value);
+		ft_conv_octal(buffer, argument, (uintmax_t)value);
 	if (argument->type == '%')
 		ft_conv_hashtag(format, buffer, argument, (int)value);
 	if (argument->type == 'x' || argument->type == 'X')

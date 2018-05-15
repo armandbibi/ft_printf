@@ -1,45 +1,143 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_octal.c                                         :+:      :+:    :+:   */
+/*   arg_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/07 16:47:42 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/11 16:14:16 by abiestro         ###   ########.fr       */
+/*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
+/*   Updated: 2018/05/16 00:10:41 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int     ft_conv_octal(const char *format, char *buffer, s_arg *argument, int value)
+static int	add_sign(char *buffer, s_arg *argument)
+{
+	if (argument->is_negative)
+	{
+		*buffer = '-';
+		return (1);
+	}
+	else if (PTF_FLAG_PLUS(argument->flags))
+	{
+		*buffer = '+';
+		return (1);
+	}
+	else if (PTF_FLAG_SPACE(argument->flags))
+	{
+		*buffer = ' ';
+		return (1);
+	}
+	return (0);
+}
+
+static int	add_precision(char *buffer, s_arg *argument, char *tmp)
+{
+	int len;
+	int p;
+	char *b;
+
+	b = buffer;
+	p = argument->precision;
+	len = ft_strlen(tmp);
+	if (PTF_FLAG_HASHTAG(argument->flags) && (*tmp != '0' || p == 0))
+	{
+		p--;
+		*buffer++ = '0';
+	}
+	if (argument->precision == 0 && *tmp == '0')
+	{	
+		if(argument->width != 0)
+			*buffer++ = ' ';
+		return (ft_strlen(b));
+	}
+	while (p > len)
+	{
+		*buffer = '0';
+		buffer++;
+		p--;
+	}
+	while (*tmp)
+	{
+		if (argument->type == 'X' && *tmp >= 'a' && *tmp <= 'f')
+			*tmp-= ' ';
+		*buffer++ = *tmp++;
+	}
+	return (ft_strlen(b));
+}
+/*
+# 0094 (int)
+  ft_printf("@moulitest: %5.o %5.0o", 0, 0);
+    1. (   21) -->@moulitest:          <--
+	  2. (   23) -->@moulitest:            <--
+  ft_printf("@moulitest: %.o %.0o", 0, 0);
+  1. (   15) -->@moulitest:    <--
+  2. (   13) -->@moulitest:  <--
+  */
+static int	add_width(char *buffer, s_arg *argument, int len, int value)
+{
+	int sub;
+	int width;
+	int pre;
+	char *b;
+
+	b = buffer;
+	width = argument->width;
+	pre = argument->precision;
+	sub = (pre > len) ? pre: len;
+	if (PTF_FLAG_HASHTAG(argument->flags) && value != 0)
+		width--;
+	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags) 
+		|| PTF_FLAG_SPACE(argument->flags)))
+		width--;
+	while (width - 1 >= sub)
+		{
+			if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
+				*buffer++ = '0';
+			else
+				*buffer++ = ' ';
+			width--;
+		}
+	*buffer = 0;
+	return (ft_strlen(b));
+}
+
+static int	add_type(char *buffer, s_arg *argument, uintmax_t value)
 {
 	int i;
 
-	if (PTF_FLAG_SPACE(argument->flags))
-		*buffer++ = ' ';
-	i = ft_log_discret(value, 8) + ((PTF_FLAG_HASHTAG(argument->flags) &&  value) ? 1 : 0);
-	if (PTF_FLAG_ZERO(argument->flags) && value != 0 &&  PTF_FLAG_HASHTAG(argument->flags))
-		*buffer++ = '0';
-	while (!PTF_FLAG_MINUS(argument->flags) && argument->width-- > i +  ((argument->precision > 1) ? argument->precision  : 1))
+	i = 0;
+	if (PTF_FLAG_HASHTAG(argument->flags) && (value != 0))
 	{
+		*buffer++ = '0';
+		i++;
+	}
+	return (i);
+}
+
+int			ft_conv_octal(char *buffer, s_arg *argument, uintmax_t value)
+{
+	char	tmp[25];
+	int len;
+
+	len = 0;
+	ft_cast_uitoa(value, tmp, argument, 8);
+	if (!PTF_FLAG_MINUS(argument->flags))
+	{
+		if (!PTF_FLAG_ZERO(argument->flags))
+			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
+//		len += add_sign(&buffer[len], argument);
+//		len += add_type(&buffer[len], argument, value);
 		if (PTF_FLAG_ZERO(argument->flags))
-			*buffer++ = '0';
-		else
-			*buffer++ = ' ';
+			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 	}
-	if (!PTF_FLAG_ZERO(argument->flags) && value != 0 && PTF_FLAG_HASHTAG(argument->flags))
-		*buffer++ = '0';
-	while (argument->precision-- > i + 1 - ((PTF_FLAG_HASHTAG(argument->flags) ? 1 : 0)))
-		*buffer++ = '0';
-	ft_unsigned_itoa(value, buffer, 8, 8);
-	while (*buffer)
+	if (PTF_FLAG_MINUS(argument->flags))
 	{
-		if (argument->type == 'X' && *buffer >= 'a' && *buffer <= 'f')
-			*buffer-=32;
-		buffer++;
+//		len += add_sign(&buffer[len], argument);
+//		len += add_type(&buffer[len], argument, value);
 	}
-	while (PTF_FLAG_MINUS(argument->flags) && argument->width-- > i +  ((argument->precision > 1) ? argument->precision  : 1))
-		*buffer++ = ' ';
-	return (0);
+	len += add_precision(&buffer[len], argument, tmp);
+	if (PTF_FLAG_MINUS(argument->flags))
+		len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 }
