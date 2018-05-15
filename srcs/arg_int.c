@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 14:25:06 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 16:16:49 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 
 	b = buffer;
 	p = argument->precision;
-		len = ft_strlen(tmp);
+	len = ft_strlen(tmp);
+	if (argument->precision == 0 && *tmp == '0')
+		return (0);
 	while (p > len)
 	{
 		*buffer = '0';
