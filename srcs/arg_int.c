@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 16:16:49 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 17:22:47 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 	return (ft_strlen(b));
 }
 
-static int	add_width(char *buffer, s_arg *argument, int len)
+static int	add_width(char *buffer, s_arg *argument, int len, int value)
 {
 	int sub;
 	int width;
@@ -95,14 +95,14 @@ int			ft_conv_integer(char *buffer, s_arg *argument, intmax_t value)
 	if (!PTF_FLAG_MINUS(argument->flags))
 	{
 		if (!PTF_FLAG_ZERO(argument->flags))
-			len += add_width(&buffer[len], argument, ft_strlen(tmp));
+			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 		len += add_sign(&buffer[len], argument);
 		if (PTF_FLAG_ZERO(argument->flags))
-			len += add_width(&buffer[len], argument, ft_strlen(tmp));
+			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 	}
 	if (PTF_FLAG_MINUS(argument->flags))
 		len += add_sign(&buffer[len], argument);
 	len += add_precision(&buffer[len], argument, tmp);
 	if (PTF_FLAG_MINUS(argument->flags))
-		len += add_width(&buffer[len], argument, ft_strlen(tmp));
+		len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 }

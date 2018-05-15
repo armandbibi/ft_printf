@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 16:08:04 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/15 17:28:55 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static int	get_precision(const char *format, s_arg *argument)
 	}
 	format++;
 	argument->precision = ft_atoi(format);
+	if (PTF_FLAG_ZERO(argument->flags))
+		PTF_TOGGLE_FLAG(argument->flags, PTF_FLAG_ZERO(argument->flags));
 	while (format[i] >= '0' && format[i] <= '9')
 		i++;
 	return (i + 1);
@@ -126,6 +128,7 @@ int			ft_parse_arg(const char *format, s_arg *argument)
 	argument->flags = 0;
 	argument->l_modifier = 0;
 	argument->is_negative = 0;
+	argument->precision = 1;
 	format++;
 	index = 0;
 	index += get_flag(format, argument);
