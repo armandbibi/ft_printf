@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 17:28:55 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/16 21:53:33 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static int	get_flag(const char *format, s_arg *argument)
 		*format == '#' || *format == '0')
 	{
 		if (*format == '-')
-			PTF_TURNON_FLAG(argument->flags, PTF_FLAG_MINUS(PTF_FLAG_ALL));
+			argument->flags |= PTF_FLAG_MINUS(~0);
 		if (*format == '+')
-			PTF_TURNON_FLAG(argument->flags, PTF_FLAG_PLUS(PTF_FLAG_ALL));
+			argument->flags |= PTF_FLAG_PLUS(~0);
 		if (*format == '0')
-			PTF_TURNON_FLAG(argument->flags, PTF_FLAG_ZERO(PTF_FLAG_ALL));
+			argument->flags |= PTF_FLAG_ZERO(~0);
 		if (*format == ' ')	
-			PTF_TURNON_FLAG(argument->flags, PTF_FLAG_SPACE(PTF_FLAG_ALL));
-		if (*format == '#')	
-			PTF_TURNON_FLAG(argument->flags, PTF_FLAG_HASHTAG(PTF_FLAG_ALL));
+			argument->flags |= PTF_FLAG_SPACE(~0);
+		if (*format == '#')
+			argument->flags |= PTF_FLAG_HASHTAG(~0);
 		format++;
 		i++;
 	}
@@ -47,7 +47,7 @@ static int	get_width(const char *format, s_arg *argument)
 		argument->width = i;
 		if (i == 0)
 			return (0);
-		return (ft_log_discret(WIDTH, 10) + 1);
+		return (ft_log_discret(argument->width, 10) + 1);
 	}
 	else
 	{
@@ -66,17 +66,17 @@ static int get_length_modifier(const char *format, s_arg *argument)
 			*format == 't')
 	{
 		if (*format == 'j')
-			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_J(PTF_FLAG_ALL));
+			argument->l_modifier |= PTF_LEN_J(~0);
 		else if (*format == 'h' && *format + 1 == 'h')
-			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_HH(PTF_FLAG_ALL));
+			argument->l_modifier |= PTF_LEN_HH(~0);
 		else if (*format == 'h' && *format + 1 != 'h')
-			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_H(PTF_FLAG_ALL));
+			argument->l_modifier |= PTF_LEN_H(~0);
 		else if (*format == 'l' && *format + 1 != 'l')
-			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_L(PTF_FLAG_ALL));
+			argument->l_modifier |= PTF_LEN_L(~0);
 		else if (*format == 'l' && *format + 1 == 'l')
-			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_LL(PTF_FLAG_ALL));
+			argument->l_modifier |= PTF_LEN_LL(~0);
 		else if (*format == 'z')
-			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_Z(PTF_FLAG_ALL));
+			argument->l_modifier |= PTF_LEN_Z(~0);
 		i++;
 		format++;
 	}

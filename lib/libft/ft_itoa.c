@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 12:15:12 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/10 16:44:53 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/16 21:54:40 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,6 @@ char* ft_itoa(intmax_t num, char* str, int base)
 	i = 0;
 	isNegative = 0;
 
-	if (num == 0)
-	{
-		str[i++] = '0';
-		str[i] = '\0';
-		return str;
-	}
 	if (num < 0 && base == 10)
 	{
 		isNegative = 1;
