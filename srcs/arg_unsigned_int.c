@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 16:14:51 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 15:53:21 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int	add_sign(char *buffer, s_arg *argument)
 
 static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 {
-	int len;
-	int p;
-	char *b;
+	int		len;
+	int		p;
+	char	*b;
 
 	b = buffer;
 	p = argument->precision;
@@ -58,37 +58,37 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 
 static int	add_width(char *buffer, s_arg *argument, int len)
 {
-	int sub;
-	int width;
-	int pre;
-	char *b;
+	int		sub;
+	int		width;
+	int		pre;
+	char	*b;
 
 	b = buffer;
 	width = argument->width;
 	pre = argument->precision;
-	sub = (pre > len) ? pre: len;
-	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags) 
-		|| PTF_FLAG_SPACE(argument->flags)))
+	sub = (pre > len) ? pre : len;
+	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags)
+				|| PTF_FLAG_SPACE(argument->flags)))
 		width--;
-	if (width)
-		while (width - 1 >= sub)
-		{
-			if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
-				*buffer++ = '0';
-			else
-				*buffer++ = ' ';
-			width--;
-		}
+	while (width - 1 >= sub)
+	{
+		if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
+			*buffer++ = '0';
+		else
+			*buffer++ = ' ';
+		width--;
+	}
 	*buffer = 0;
 	return (ft_strlen(b));
 }
 
-int			ft_conv_unsigned_integer(char *buffer, s_arg *argument, uintmax_t value)
+int			ft_conv_unsigned_integer(char *buffer, s_arg *argument,
+		uintmax_t value)
 {
 	char	tmp[20];
 	int		len;
+	char	*t;
 
-	char *t;
 	t = tmp;
 	len = 0;
 	ft_cast_uitoa(value, t, argument, 10);

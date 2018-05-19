@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/16 21:53:33 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 16:28:53 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ static int	get_flag(const char *format, s_arg *argument)
 
 	argument->flags = 0;
 	i = 0;
-   	while(*format == '-' || *format == '+' ||*format == ' ' ||
-		*format == '#' || *format == '0')
+	while (*format == '-' || *format == '+' || *format == ' ' ||
+			*format == '#' || *format == '0')
 	{
 		if (*format == '-')
 			argument->flags |= PTF_FLAG_MINUS(~0);
-		if (*format == '+')
+		else if (*format == '+')
 			argument->flags |= PTF_FLAG_PLUS(~0);
-		if (*format == '0')
+		else if (*format == '0')
 			argument->flags |= PTF_FLAG_ZERO(~0);
-		if (*format == ' ')	
+		else if (*format == ' ')
 			argument->flags |= PTF_FLAG_SPACE(~0);
-		if (*format == '#')
+		else if (*format == '#')
 			argument->flags |= PTF_FLAG_HASHTAG(~0);
 		format++;
 		i++;
@@ -56,7 +56,7 @@ static int	get_width(const char *format, s_arg *argument)
 	}
 }
 
-static int get_length_modifier(const char *format, s_arg *argument)
+static int	get_length_modifier(const char *format, s_arg *argument)
 {
 	int i;
 
@@ -105,10 +105,10 @@ static int	get_precision(const char *format, s_arg *argument)
 static int	get_modifier(const char *format, s_arg *argument)
 {
 	if (*format == 's' || *format == 'S' || *format == 'p' ||
-		*format == 'i' || *format == 'D' || *format == 'd' ||
-		*format == 'o' || *format == 'O' || *format == 'u' ||
-		*format == 'c' || *format == 'X' || *format == 'x' ||
-		*format == 'C' || *format == '%' || *format == 'U')
+			*format == 'i' || *format == 'D' || *format == 'd' ||
+			*format == 'o' || *format == 'O' || *format == 'u' ||
+			*format == 'c' || *format == 'X' || *format == 'x' ||
+			*format == 'C' || *format == '%' || *format == 'U')
 	{
 		argument->type = *format;
 		if (*format  == 'D' || *format == 'U')
@@ -125,6 +125,7 @@ static int	get_modifier(const char *format, s_arg *argument)
 int			ft_parse_arg(const char *format, s_arg *argument)
 {
 	int index;
+
 	argument->flags = 0;
 	argument->l_modifier = 0;
 	argument->is_negative = 0;
@@ -132,7 +133,7 @@ int			ft_parse_arg(const char *format, s_arg *argument)
 	format++;
 	index = 0;
 	index += get_flag(format, argument);
-	index += get_width(&format[index], argument);	
+	index += get_width(&format[index], argument);
 	index += get_precision(&format[index], argument);
 	index += get_length_modifier(&format[index], argument);
 	index += get_modifier(&format[index], argument);

@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 14:06:38 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/10 16:35:57 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/17 17:44:49 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *str, char c);
-char				*ft_unsigned_itoa(uintmax_t num, char *str, int base, int max_size);
-char				*ft_itoa(intmax_t num, char* str, int base);
+char				*ft_unsigned_itoa(uintmax_t num, char *str, int base,
+		int max_size);
+char				*ft_itoa(intmax_t num, char *str, int base);
 
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);

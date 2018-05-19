@@ -6,13 +6,14 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 22:36:12 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/09 23:16:48 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 15:14:43 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int     ft_conv_hashtag(const char *format, char *buffer, s_arg *argument, int value)
+int	ft_conv_hashtag(const char *format, char *buffer,
+		s_arg *argument, int value)
 {
 	int len;
 

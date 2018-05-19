@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 18:22:37 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 15:22:43 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int	add_sign(char *buffer, s_arg *argument)
 
 static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 {
-	int len;
-	int p;
-	char *b;
+	int		len;
+	int		p;
+	char	*b;
 
 	b = buffer;
 	p = argument->precision;
@@ -52,7 +52,7 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 	while (*tmp)
 	{
 		if (argument->type == 'X' && *tmp >= 'a' && *tmp <= 'f')
-			*tmp-= ' ';
+			*tmp -= ' ';
 		*buffer++ = *tmp++;
 	}
 	return (ft_strlen(b));
@@ -60,28 +60,29 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 
 static int	add_width(char *buffer, s_arg *argument, int len, int value)
 {
-	int sub;
-	int width;
-	int pre;
-	char *b;
+	int		sub;
+	int		width;
+	int		pre;
+	char	*b;
 
 	b = buffer;
 	width = argument->width;
 	pre = argument->precision;
-	sub = (pre > len) ? pre: len;
-	if (PTF_FLAG_HASHTAG(argument->flags) && (value != 0 || argument->precision > 1))
-			width -= 2;
-	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags) 
-		|| PTF_FLAG_SPACE(argument->flags)))
+	sub = (pre > len) ? pre : len;
+	if (PTF_FLAG_HASHTAG(argument->flags) && (value != 0 || pre > 1))
+		width -= 2;
+	if (value == 0 && argument->precision == 0 && argument->width > 0)
+		*buffer++ = ' ';
+	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags)
+				|| PTF_FLAG_SPACE(argument->flags)))
 		width--;
-	while (width - 1 >= sub)
-		{
-			if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
-				*buffer++ = '0';
-			else
-				*buffer++ = ' ';
-			width--;
-		}
+	while (--width >= sub)
+	{
+		if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
+			*buffer++ = '0';
+		else
+			*buffer++ = ' ';
+	}
 	*buffer = 0;
 	return (ft_strlen(b));
 }
@@ -91,7 +92,8 @@ static int	add_type(char *buffer, s_arg *argument, uintmax_t value)
 	int i;
 
 	i = 0;
-	if (PTF_FLAG_HASHTAG(argument->flags) && (value != 0 || argument->precision > 1))
+	if (PTF_FLAG_HASHTAG(argument->flags) &&
+			(value != 0 || argument->precision > 1))
 	{
 		*buffer++ = '0';
 		*buffer++ = argument->type;
@@ -103,7 +105,7 @@ static int	add_type(char *buffer, s_arg *argument, uintmax_t value)
 int			ft_conv_hexa(char *buffer, s_arg *argument, uintmax_t value)
 {
 	char	tmp[20];
-	int len;
+	int		len;
 
 	len = 0;
 	ft_cast_uitoa(value, tmp, argument, 16);

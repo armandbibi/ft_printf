@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/16 00:10:41 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 15:41:09 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int	add_sign(char *buffer, s_arg *argument)
 
 static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 {
-	int len;
-	int p;
-	char *b;
+	int		len;
+	int		p;
+	char	*b;
 
 	b = buffer;
 	p = argument->precision;
@@ -47,58 +47,41 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 		*buffer++ = '0';
 	}
 	if (argument->precision == 0 && *tmp == '0')
-	{	
-		if(argument->width != 0)
+	{
+		if (argument->width != 0)
 			*buffer++ = ' ';
 		return (ft_strlen(b));
 	}
-	while (p > len)
-	{
-		*buffer = '0';
-		buffer++;
-		p--;
-	}
+	while (p-- > len)
+		*buffer++ = '0';
 	while (*tmp)
-	{
-		if (argument->type == 'X' && *tmp >= 'a' && *tmp <= 'f')
-			*tmp-= ' ';
 		*buffer++ = *tmp++;
-	}
 	return (ft_strlen(b));
 }
-/*
-# 0094 (int)
-  ft_printf("@moulitest: %5.o %5.0o", 0, 0);
-    1. (   21) -->@moulitest:          <--
-	  2. (   23) -->@moulitest:            <--
-  ft_printf("@moulitest: %.o %.0o", 0, 0);
-  1. (   15) -->@moulitest:    <--
-  2. (   13) -->@moulitest:  <--
-  */
+
 static int	add_width(char *buffer, s_arg *argument, int len, int value)
 {
-	int sub;
-	int width;
-	int pre;
-	char *b;
+	int		sub;
+	int		width;
+	int		pre;
+	char	*b;
 
 	b = buffer;
 	width = argument->width;
 	pre = argument->precision;
-	sub = (pre > len) ? pre: len;
+	sub = (pre > len) ? pre : len;
 	if (PTF_FLAG_HASHTAG(argument->flags) && value != 0)
 		width--;
-	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags) 
-		|| PTF_FLAG_SPACE(argument->flags)))
+	if ((argument->is_negative == 1 || PTF_FLAG_PLUS(argument->flags)
+				|| PTF_FLAG_SPACE(argument->flags)))
 		width--;
-	while (width - 1 >= sub)
-		{
-			if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
-				*buffer++ = '0';
-			else
-				*buffer++ = ' ';
-			width--;
-		}
+	while (--width >= sub)
+	{
+		if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
+			*buffer++ = '0';
+		else
+			*buffer++ = ' ';
+	}
 	*buffer = 0;
 	return (ft_strlen(b));
 }
@@ -127,15 +110,8 @@ int			ft_conv_octal(char *buffer, s_arg *argument, uintmax_t value)
 	{
 		if (!PTF_FLAG_ZERO(argument->flags))
 			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
-//		len += add_sign(&buffer[len], argument);
-//		len += add_type(&buffer[len], argument, value);
 		if (PTF_FLAG_ZERO(argument->flags))
 			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
-	}
-	if (PTF_FLAG_MINUS(argument->flags))
-	{
-//		len += add_sign(&buffer[len], argument);
-//		len += add_type(&buffer[len], argument, value);
 	}
 	len += add_precision(&buffer[len], argument, tmp);
 	if (PTF_FLAG_MINUS(argument->flags))

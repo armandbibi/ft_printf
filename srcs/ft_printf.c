@@ -6,19 +6,36 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/15 14:00:12 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 15:58:03 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int ft_printf(const char *format, ...)
+int		write_buffer(char *buffer, char *src, int len)
 {
-	va_list argl;
-	char buffer[BUFF_SIZE];
-	int i;
-	char *bufi;
-	s_arg	argument;
+	static int buff_delimitor = 0;
+
+	while (len)
+	{
+		if (buff_delimitor % BUFF_SIZE == 0)
+		{
+			write(1, buffer, BUFF_SIZE);
+		}
+		len--;
+		buff_delimitor++;
+		*buffer++ = *src++;
+	}
+	return (buff_delimitor);
+}
+
+int		ft_printf(const char *format, ...)
+{
+	va_list		argl;
+	char		buffer[BUFF_SIZE];
+	int			i;
+	char		*bufi;
+	s_arg		argument;
 
 	ft_strclr(buffer);
 	i = 0;
@@ -27,11 +44,7 @@ int ft_printf(const char *format, ...)
 	while (*format)
 	{
 		if (*format != '%')
-		{
-			*bufi = *format;
-			bufi++;
-			format++;
-		}
+			*bufi++ = *format++;
 		else
 		{
 			i = ft_parse_arg(format, &argument);
@@ -41,7 +54,6 @@ int ft_printf(const char *format, ...)
 			format = &format[i];
 		}
 	}
-	*bufi = '\0';
-	write (1, buffer, ft_strlen(buffer));
+	write(1, buffer, ft_strlen(buffer));
 	return (ft_strlen(buffer));
 }
