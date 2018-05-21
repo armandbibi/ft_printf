@@ -6,27 +6,52 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 15:58:03 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/21 21:42:51 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int		write_buffer(char *buffer, char *src, int len)
+static int calc_tot(int src)
 {
-	static int buff_delimitor = 0;
+	if (src > 4194304)
+		return (3);
+	if (src > 1024)
+		return (2);
+	if (src > 127)
+		return (1);
+	return (0);
+}
 
-	while (len)
+int		write_buffer(char **buffer, int src)
+{
+	static int	tot = 0;
+	static int	buff_delimitor = 0;
+	int			returned;
+	if (buffer)
 	{
-		if (buff_delimitor % BUFF_SIZE == 0)
+		tot += calc_tot(src);
+		**buffer = src;
+		buff_delimitor++;
+		if (buff_delimitor > 0 && buff_delimitor % BUFF_SIZE == 0)
 		{
 			write(1, buffer, BUFF_SIZE);
+			*buffer = buffer[-BUFF_SIZE];
 		}
-		len--;
-		buff_delimitor++;
-		*buffer++ = *src++;
+		else
+			++*buffer;
 	}
-	return (buff_delimitor);
+	if (!buffer)
+	{
+		returned = buff_delimitor;
+		if (src == '0')
+		{
+			tot = 0;
+			buff_delimitor = 0;
+		}
+		return (returned);
+	}
+	return (buff_delimitor + tot);
 }
 
 int		ft_printf(const char *format, ...)
@@ -37,6 +62,7 @@ int		ft_printf(const char *format, ...)
 	char		*bufi;
 	s_arg		argument;
 
+	argument.len = 0;
 	ft_strclr(buffer);
 	i = 0;
 	bufi = buffer;
@@ -44,16 +70,16 @@ int		ft_printf(const char *format, ...)
 	while (*format)
 	{
 		if (*format != '%')
-			*bufi++ = *format++;
+			write_buffer(&bufi, *format++);
 		else
 		{
 			i = ft_parse_arg(format, &argument);
-			build_arg(format, bufi, &argument, va_arg(argl, uintmax_t));
-			while (*bufi)
-				bufi++;
+			if (build_arg(format, bufi, &argument, va_arg(argl, uintmax_t)) == -1)
+				return (-1);
+			bufi = &buffer[write_buffer(NULL, 0)];
 			format = &format[i];
 		}
 	}
-	write(1, buffer, ft_strlen(buffer));
-	return (ft_strlen(buffer));
+	write(1, buffer, write_buffer(NULL, 0));
+	return (write_buffer(NULL, '0'));
 }

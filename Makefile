@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/14 12:31:38 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/21 15:46:59 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ ITEMS			= ft_printf \
 				  parse_struct \
 				  ft_setarg \
 				  arg_char \
+				  arg_wchar \
 				  arg_octal \
 				  arg_hexa \
 				  arg_hashtag \
@@ -32,7 +33,8 @@ ITEMS			= ft_printf \
 				  arg_pointeur \
 				  arg_int \
 				  arg_unsigned_int \
-				  utils_math
+				  utils_math \
+				  utils_unicode
 
 LIBS			= libft
 

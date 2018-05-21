@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 15:53:21 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/21 15:01:24 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,12 @@ static int	add_sign(char *buffer, s_arg *argument)
 {
 	if (argument->is_negative)
 	{
-		*buffer = '-';
+		write_buffer(&buffer, '-');
 		return (1);
 	}
 	else if (PTF_FLAG_PLUS(argument->flags))
 	{
-		*buffer = '+';
-		return (1);
-	}
-	else if (PTF_FLAG_SPACE(argument->flags))
-	{
-		*buffer = ' ';
+		write_buffer(&buffer, '+');
 		return (1);
 	}
 	return (0);
@@ -43,16 +38,10 @@ static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 	len = ft_strlen(tmp);
 	if (argument->precision == 0 && *tmp == '0')
 		return (0);
-	while (p > len)
-	{
-		*buffer = '0';
-		buffer++;
-		p--;
-	}
+	while (p-- > len)
+		write_buffer(&buffer, '0');
 	while (*tmp)
-	{
-		*buffer++ = *tmp++;
-	}
+		write_buffer(&buffer, *tmp++);
 	return (ft_strlen(b));
 }
 
@@ -73,12 +62,11 @@ static int	add_width(char *buffer, s_arg *argument, int len)
 	while (width - 1 >= sub)
 	{
 		if (PTF_FLAG_ZERO(argument->flags) && !PTF_FLAG_MINUS(argument->flags))
-			*buffer++ = '0';
+			write_buffer(&buffer, '0');
 		else
-			*buffer++ = ' ';
+			write_buffer(&buffer, ' ');
 		width--;
 	}
-	*buffer = 0;
 	return (ft_strlen(b));
 }
 

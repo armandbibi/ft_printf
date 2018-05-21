@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 16:28:53 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/21 19:04:11 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ static int	get_modifier(const char *format, s_arg *argument)
 		argument->type = *format;
 		if (*format  == 'D' || *format == 'U')
 			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_LL(PTF_FLAG_ALL));
+		if (*format == 'c' && PTF_LEN_L(argument->l_modifier))
+			argument->type = 'C';
 		return (2);
 	}
 	else

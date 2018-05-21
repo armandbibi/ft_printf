@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 14:04:25 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 16:24:19 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/21 21:43:36 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 int		build_arg(const char *format, char *buffer,
 		s_arg *argument, uintmax_t *value)
 {
-	if (TYPE == 'c' || TYPE == 'C')
-		ft_conv_char(format, buffer, argument, (char)value);
+	if (TYPE == 'c')
+		ft_conv_char(buffer, argument, (char)value);
+	if (TYPE == 'C')
+		if(ft_conv_wchar(buffer, argument, (int)value) == -1)
+			return (-1);
 	if (TYPE == 's' || TYPE == 'S')
 		ft_conv_string(format, buffer, argument, (char *)value);
 	if (TYPE == 'i' || TYPE == 'D' || TYPE == 'd')

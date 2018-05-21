@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 15:04:41 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/21 16:47:35 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 
 typedef struct	t_arg
 {
+	int			len;
 	int			flags;
 	int			l_modifier;
 	int			is_negative;
@@ -57,10 +58,10 @@ typedef struct	t_arg
 int				ft_parse_arg(const char *format, s_arg *argument);
 int				build_arg(const char *format, char *buffer,
 		s_arg *argument, uintmax_t *arg);
-int				write_buffer(char *buffer, char *src, int len);
+int				write_buffer(char **buffer, int src);
 int				ft_printf(const char *format, ...);
-int				ft_conv_char(const char *format, char *buffer,
-		s_arg *argument, char value);
+int				ft_conv_char(char *buffer, s_arg *argument, char value);
+int				ft_conv_wchar(char *buffer, s_arg *argument, int value);
 int				ft_conv_string(const char *format, char *buffer,
 		s_arg *argument, char *value);
 int				ft_conv_octal(char *buffer, s_arg *argument, uintmax_t value);
@@ -72,6 +73,7 @@ int				ft_conv_hashtag(const char *format, char *buffer,
 int				ft_conv_hexa(char *buffer, s_arg *argument, uintmax_t value);
 int				ft_conv_pointeur(char *buffer, s_arg *argument,
 		uintmax_t value);
+char			*wchartochar(int c, char **buffer);
 int				ft_conv_uint(char *buffer, unsigned int arg);
 int				ft_log_discret(unsigned int nb, int base);
 int				ft_cast_itoa(intmax_t value, char *t, s_arg *arg, int base);

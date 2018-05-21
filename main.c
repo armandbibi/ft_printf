@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_char.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/08 19:53:47 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 15:47:25 by abiestro         ###   ########.fr       */
+/*   Created: 2018/05/19 20:03:51 by abiestro          #+#    #+#             */
+/*   Updated: 2018/05/21 18:25:31 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../includes/ft_printf.h"
-
-int	ft_conv_char(char *buffer, s_arg *argument, char value)
+#include <locale.h>
+#include <wchar.h>
+#include "includes/ft_printf.h"
+int main()
 {
-	if (PTF_FLAG_MINUS(argument->flags))
-		write_buffer(&buffer, value);
-	while (argument->width-- > 1)
-		write_buffer(&buffer, ' ');
-	if (!PTF_FLAG_MINUS(argument->flags))
-		write_buffer(&buffer, value);
-	return (0);
+	setlocale(LC_ALL, "");
+	printf("%d\n",printf("%C", (wint_t) 536));
+	printf("%d\n", ft_printf("%C",  (wint_t)536));
 }

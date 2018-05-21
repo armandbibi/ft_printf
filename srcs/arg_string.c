@@ -6,17 +6,17 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 17:28:56 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 15:49:23 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/19 19:48:19 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static int	add_width(char *buffer, s_arg *argument, char *value)
+static int	add_width(char **buffer, s_arg *argument, char *value)
 {
 	char *b;
 
-	b = buffer;
+	b = *buffer;
 	if (!PTF_FLAG_MINUS(argument->flags))
 	{
 		if (argument->precision != 1 &&
@@ -28,7 +28,7 @@ static int	add_width(char *buffer, s_arg *argument, char *value)
 	else
 		argument->width -= ft_strlen(value);
 	while (argument->width-- > 0)
-		*buffer++ = ' ';
+		write_buffer(buffer, ' ');
 	return (ft_strlen(b));
 }
 
@@ -38,22 +38,21 @@ int			ft_conv_string(const char *format, char *buffer,
 	char	*b;
 	int		i;
 	char	c[8];
-	char	saved;
+	char	*saved;
 
-	i = 0;
 	ft_strcpy(c, "(null)");
 	if (value == NULL)
 		value = c;
 	b = value;
 	saved = buffer;
 	if (!PTF_FLAG_MINUS(argument->flags))
-		i = add_width(buffer, argument, b);
+		add_width(&buffer, argument, b);
 	if (argument->precision == 1)
 		while (*value)
-			buffer[i++] = *value++;
+			write_buffer(&buffer, *value++);
 	else
 		while (argument->precision-- > 0 && *value)
-			buffer[i++] = *value++;
+			write_buffer(&buffer, *value++);
 	if (PTF_FLAG_MINUS(argument->flags))
-		add_width(&buffer[i], argument, buffer);
+		add_width(&buffer, argument, saved);
 }
