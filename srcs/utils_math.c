@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 16:24:32 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 16:41:15 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/22 17:06:10 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int		ft_cast_itoa(intmax_t value, char *tmp, s_arg *arg, int base)
 	if (PTF_LEN_J(arg->l_modifier) && (intmax_t)value >= 0)
 		ft_unsigned_itoa((intmax_t)value, tmp, base, 20);
 	else if (PTF_LEN_J(arg->l_modifier) && (arg->is_negative = 1))
-		ft_unsigned_itoa((intmax_t)-value, tmp, base, 20);
+		ft_unsigned_itoa(-(intmax_t)value, tmp, base, 20);
 	else if (PTF_LEN_LL(arg->l_modifier) && (long long)value >= 0)
 		ft_unsigned_itoa((long long)value, tmp, base, 20);
 	else if (PTF_LEN_LL(arg->l_modifier) && (arg->is_negative = 1))
-		ft_unsigned_itoa((long long)-value, tmp, base, 20);
+		ft_unsigned_itoa(-(long long)value, tmp, base, 20);
 	else if ((PTF_LEN_L(arg->l_modifier)) && (long)value >= 0)
 		ft_unsigned_itoa((long)value, tmp, base, 20);
 	else if ((PTF_LEN_L(arg->l_modifier)) && (arg->is_negative = 1))
@@ -70,4 +70,14 @@ int		ft_cast_itoa(intmax_t value, char *tmp, s_arg *arg, int base)
 		ft_unsigned_itoa((char)-value, tmp, base, 4);
 	else if ((int)value < 0 && (arg->is_negative = 1))
 		ft_unsigned_itoa(-(int)value, tmp, base, 10);
+}
+
+uintmax_t check_limits(uintmax_t i, s_arg *arg)
+{
+	if (PTF_LEN_J(arg->l_modifier) && (intmax_t)i == LONG_MIN)
+	{
+		arg->is_negative = 1;
+		i = -1;
+	}
+	return (i);
 }

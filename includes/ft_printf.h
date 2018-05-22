@@ -6,15 +6,16 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 16:47:35 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/22 17:06:57 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include "libft.h"
+# include <locale.h>
 # include <stdarg.h>
-
+# include <limits.h>
 # define BUFF_SIZE  750
 # define PTF_FLAG_ALL			(    0b111111111111)
 # define PTF_TOGGLE_FLAG(x, flag)	(x ^= flag)
@@ -78,4 +79,5 @@ int				ft_conv_uint(char *buffer, unsigned int arg);
 int				ft_log_discret(unsigned int nb, int base);
 int				ft_cast_itoa(intmax_t value, char *t, s_arg *arg, int base);
 int				ft_cast_uitoa(uintmax_t value, char *t, s_arg *arg, int base);
+uintmax_t		check_limits(uintmax_t i, s_arg *arg);
 #endif

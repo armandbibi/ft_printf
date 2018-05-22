@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 15:01:24 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/22 16:28:50 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ static int	add_sign(char *buffer, s_arg *argument)
 	if (argument->is_negative)
 	{
 		write_buffer(&buffer, '-');
-		return (1);
-	}
-	else if (PTF_FLAG_PLUS(argument->flags))
-	{
-		write_buffer(&buffer, '+');
 		return (1);
 	}
 	return (0);

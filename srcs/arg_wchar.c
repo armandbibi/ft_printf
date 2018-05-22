@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 15:42:56 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 22:13:36 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/22 16:00:13 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int stock_value(char **buffer, int value)
 {
-	if ((value >=  0xd800 && value <= 0xdfff) || (value > 127 && value <= 256) || value < 0 || value > 0x10FFFF)
+	if ((value >=  0xd800 && value <= 0xdfff) || (value >= 256 && MB_CUR_MAX !=4) || value < 0 || value > 0x10FFFF)
 		return (-1);
 	if (value > 0b1111111111111111)
 	{
