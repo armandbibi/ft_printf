@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/19 20:03:51 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 18:25:31 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/23 22:25:12 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <locale.h>
@@ -14,7 +14,6 @@
 #include "includes/ft_printf.h"
 int main()
 {
-	setlocale(LC_ALL, "");
-	printf("%d\n",printf("%C", (wint_t) 536));
-	printf("%d\n", ft_printf("%C",  (wint_t)536));
+printf("%d", printf("%lc, %lc", L'暖', L'ح'));
+printf("%d",ft_printf("%lc, %lc", L'暖', L'ح'));
 }

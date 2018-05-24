@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/21 15:46:59 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/23 22:34:37 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ ITEMS			= ft_printf \
 				  arg_hexa \
 				  arg_hashtag \
 				  arg_string \
+				  arg_wstring \
 				  arg_pointeur \
 				  arg_int \
 				  arg_unsigned_int \

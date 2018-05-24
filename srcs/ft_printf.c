@@ -6,22 +6,11 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 21:42:51 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/24 21:33:10 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-
-static int calc_tot(int src)
-{
-	if (src > 4194304)
-		return (3);
-	if (src > 1024)
-		return (2);
-	if (src > 127)
-		return (1);
-	return (0);
-}
 
 int		write_buffer(char **buffer, int src)
 {
@@ -30,7 +19,6 @@ int		write_buffer(char **buffer, int src)
 	int			returned;
 	if (buffer)
 	{
-		tot += calc_tot(src);
 		**buffer = src;
 		buff_delimitor++;
 		if (buff_delimitor > 0 && buff_delimitor % BUFF_SIZE == 0)
@@ -51,7 +39,7 @@ int		write_buffer(char **buffer, int src)
 		}
 		return (returned);
 	}
-	return (buff_delimitor + tot);
+	return (buff_delimitor);
 }
 
 int		ft_printf(const char *format, ...)
@@ -59,25 +47,35 @@ int		ft_printf(const char *format, ...)
 	va_list		argl;
 	char		buffer[BUFF_SIZE];
 	int			i;
+	int			k;
 	char		*bufi;
 	s_arg		argument;
 
 	argument.len = 0;
-	ft_strclr(buffer);
 	i = 0;
 	bufi = buffer;
+	ft_strclr(buffer);
 	va_start(argl, format);
+	k = 0;
 	while (*format)
 	{
+		k++;
 		if (*format != '%')
 			write_buffer(&bufi, *format++);
 		else
 		{
 			i = ft_parse_arg(format, &argument);
-			if (build_arg(format, bufi, &argument, va_arg(argl, uintmax_t)) == -1)
+			if (build_arg(format, bufi, &argument, va_arg(argl, uintmax_t)) >= 0)
+			{
+				k = 0;
+				bufi = &buffer[write_buffer(NULL, 0) % BUFF_SIZE];
+				format = &format[i];
+			}
+			else
+			{
+				write(1, buffer, write_buffer(NULL, '0') - k + 1);
 				return (-1);
-			bufi = &buffer[write_buffer(NULL, 0)];
-			format = &format[i];
+			}
 		}
 	}
 	write(1, buffer, write_buffer(NULL, 0));

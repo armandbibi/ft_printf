@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 19:04:11 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/23 22:43:58 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ static int	get_length_modifier(const char *format, s_arg *argument)
 	{
 		if (*format == 'j')
 			argument->l_modifier |= PTF_LEN_J(~0);
-		else if (*format == 'h' && *format + 1 == 'h')
+		else if (*format == 'h' && format[1] == 'h')
 			argument->l_modifier |= PTF_LEN_HH(~0);
-		else if (*format == 'h' && *format + 1 != 'h')
+		else if (*format == 'h' && format[1] != 'h')
 			argument->l_modifier |= PTF_LEN_H(~0);
 		else if (*format == 'l' && *format + 1 != 'l')
 			argument->l_modifier |= PTF_LEN_L(~0);
@@ -111,10 +111,10 @@ static int	get_modifier(const char *format, s_arg *argument)
 			*format == 'C' || *format == '%' || *format == 'U')
 	{
 		argument->type = *format;
-		if (*format  == 'D' || *format == 'U')
+		if (*format  == 'D' || *format == 'U' || *format == 'O')
 			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_LL(PTF_FLAG_ALL));
-		if (*format == 'c' && PTF_LEN_L(argument->l_modifier))
-			argument->type = 'C';
+		if ((*format == 'c' || *format == 's') && PTF_LEN_L(argument->l_modifier))
+			argument->type -= ' ';
 		return (2);
 	}
 	else

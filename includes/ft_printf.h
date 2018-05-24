@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/22 17:06:57 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/23 22:39:30 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				ft_conv_char(char *buffer, s_arg *argument, char value);
 int				ft_conv_wchar(char *buffer, s_arg *argument, int value);
 int				ft_conv_string(const char *format, char *buffer,
 		s_arg *argument, char *value);
+int				ft_conv_wstring(char *buffer, s_arg *argument, int *value);
 int				ft_conv_octal(char *buffer, s_arg *argument, uintmax_t value);
 int				ft_conv_integer(char *buffer, s_arg *argument, intmax_t value);
 int				ft_conv_unsigned_integer(char *buffer, s_arg *argument,
@@ -79,5 +80,6 @@ int				ft_conv_uint(char *buffer, unsigned int arg);
 int				ft_log_discret(unsigned int nb, int base);
 int				ft_cast_itoa(intmax_t value, char *t, s_arg *arg, int base);
 int				ft_cast_uitoa(uintmax_t value, char *t, s_arg *arg, int base);
-uintmax_t		check_limits(uintmax_t i, s_arg *arg);
+int				check_limits(uintmax_t i, s_arg *arg, char *str);
+int				stock_value(char **buffer, int value);
 #endif

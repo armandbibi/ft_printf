@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/22 17:09:34 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/23 21:11:56 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ int			ft_conv_integer(char *buffer, s_arg *argument, intmax_t value)
 	int		len;
 	char	*t;
 
-//	value = check_limits(value, argument);
 	t = tmp;
+//	if (!(check_limits(value, argument, t)))
+		ft_cast_itoa(value, tmp, argument, 10);
 	len = 0;
-	ft_cast_itoa(value, t, argument, 10);
 	if (!PTF_FLAG_MINUS(argument->flags))
 	{
 		if (!PTF_FLAG_ZERO(argument->flags))
