@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:22:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/23 22:39:30 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/27 19:21:37 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <locale.h>
 # include <stdarg.h>
 # include <limits.h>
-# define BUFF_SIZE  750
+# define BUFF_SIZE  128
 # define PTF_FLAG_ALL			(    0b111111111111)
 # define PTF_TOGGLE_FLAG(x, flag)	(x ^= flag)
 # define PTF_TURNON_FLAG(x, flag)	(x |= flag)
@@ -39,6 +39,7 @@
 # define PTF_LEN_LL(x)		(x & 0b00001000)
 # define PTF_LEN_J(x)		(x & 0b00010000)
 # define PTF_LEN_Z(x)		(x & 0b00100000)
+# define PTF_NO_PRE(x)		(x & 0b01000000)
 # define FLAG argument->flag
 # define WIDTH argument->width
 # define PRECISION argument->precision

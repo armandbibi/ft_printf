@@ -6,31 +6,11 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 15:07:04 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/28 19:45:01 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-
-static int	add_sign(char *buffer, s_arg *argument)
-{
-	if (argument->is_negative)
-	{
-		write_buffer(&buffer, '-');
-		return (1);
-	}
-	else if (PTF_FLAG_PLUS(argument->flags))
-	{
-		write_buffer(&buffer, '+');
-		return (1);
-	}
-	else if (PTF_FLAG_SPACE(argument->flags))
-	{
-		write_buffer(&buffer, ' ');
-		return (1);
-	}
-	return (0);
-}
 
 static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 {
@@ -79,17 +59,14 @@ static int	add_width(char *buffer, s_arg *argument, int len, int value)
 	return (ft_strlen(b));
 }
 
-static int	add_type(char *buffer, s_arg *argument, uintmax_t value)
+static int	add_type(char *buffer)
 {
 	int i;
 
 	i = 0;
-	if (PTF_FLAG_HASHTAG(argument->flags) && (argument->precision >= 1))
-	{
-		write_buffer(&buffer, '0');
-		write_buffer(&buffer, 'x');
-		i = 2;
-	}
+	write_buffer(&buffer, '0');
+	write_buffer(&buffer, 'x');
+	i = 2;
 	return (i);
 }
 
@@ -105,17 +82,14 @@ int			ft_conv_pointeur(char *buffer, s_arg *argument, uintmax_t value)
 	{
 		if (!PTF_FLAG_ZERO(argument->flags))
 			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
-		len += add_sign(&buffer[len], argument);
-		len += add_type(&buffer[len], argument, value);
+		len += add_type(&buffer[len]);
 		if (PTF_FLAG_ZERO(argument->flags))
 			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 	}
 	if (PTF_FLAG_MINUS(argument->flags))
-	{
-		len += add_sign(&buffer[len], argument);
-		len += add_type(&buffer[len], argument, value);
-	}
+		len += add_type(&buffer[len]);
 	len += add_precision(&buffer[len], argument, tmp);
 	if (PTF_FLAG_MINUS(argument->flags))
 		len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
+	return (0);
 }

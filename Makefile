@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 13:01:09 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/23 22:34:37 by abiestro         ###   ########.fr        #
+#    Updated: 2018/05/26 14:56:01 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ ITEMS			= ft_printf \
 				  arg_int \
 				  arg_unsigned_int \
 				  utils_math \
-				  utils_unicode
 
 LIBS			= libft
 

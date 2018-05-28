@@ -6,17 +6,17 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 12:48:13 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/24 21:33:10 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/28 21:12:39 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int		write_buffer(char **buffer, int src)
+int				write_buffer(char **buffer, int src)
 {
-	static int	tot = 0;
 	static int	buff_delimitor = 0;
 	int			returned;
+
 	if (buffer)
 	{
 		**buffer = src;
@@ -33,16 +33,36 @@ int		write_buffer(char **buffer, int src)
 	{
 		returned = buff_delimitor;
 		if (src == '0')
-		{
-			tot = 0;
 			buff_delimitor = 0;
-		}
 		return (returned);
 	}
 	return (buff_delimitor);
 }
 
-int		ft_printf(const char *format, ...)
+static int		add_nomodifier(char **bufi, s_arg *argument)
+{
+	int i;
+
+	i = 1;
+	if (argument->flags)
+		i++;
+	if (argument->width > 0)
+	{
+		i += ft_log_discret(argument->width, 10) + 1;
+		while (--argument->width > 0)
+		{
+			if (PTF_FLAG_ZERO(argument->flags))
+				write_buffer(bufi, '0');
+			else
+				write_buffer(bufi, ' ');
+		}
+		if (!PTF_NO_PRE(argument->l_modifier))
+			i++;
+	}
+	return (i);
+}
+
+int				ft_printf(const char *format, ...)
 {
 	va_list		argl;
 	char		buffer[BUFF_SIZE];
@@ -54,7 +74,7 @@ int		ft_printf(const char *format, ...)
 	argument.len = 0;
 	i = 0;
 	bufi = buffer;
-	ft_strclr(buffer);
+	ft_bzero(&buffer, BUFF_SIZE);
 	va_start(argl, format);
 	k = 0;
 	while (*format)
@@ -65,19 +85,21 @@ int		ft_printf(const char *format, ...)
 		else
 		{
 			i = ft_parse_arg(format, &argument);
-			if (build_arg(format, bufi, &argument, va_arg(argl, uintmax_t)) >= 0)
-			{
-				k = 0;
-				bufi = &buffer[write_buffer(NULL, 0) % BUFF_SIZE];
-				format = &format[i];
-			}
-			else
+			if (argument.type == 0)
+				format = &format[add_nomodifier(&bufi, &argument)];
+			else if (argument.type == '%')
+				build_arg(format, bufi, &argument, 0);
+			else if (build_arg(format, bufi, &argument, va_arg(argl, uintmax_t)) < 0)
 			{
 				write(1, buffer, write_buffer(NULL, '0') - k + 1);
 				return (-1);
 			}
+			bufi = &buffer[write_buffer(NULL, 0) % BUFF_SIZE];
+			format = &format[i];
+			k = 0;
 		}
 	}
+	va_end(argl);
 	write(1, buffer, write_buffer(NULL, 0));
 	return (write_buffer(NULL, '0'));
 }

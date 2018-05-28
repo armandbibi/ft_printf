@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 17:28:56 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/19 19:48:19 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/26 17:24:39 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ static int	add_width(char **buffer, s_arg *argument, char *value)
 	else
 		argument->width -= ft_strlen(value);
 	while (argument->width-- > 0)
-		write_buffer(buffer, ' ');
+	{
+		if (PTF_FLAG_ZERO(argument->flags))
+			write_buffer(buffer, '0');
+		else
+			write_buffer(buffer, ' ');
+	}
 	return (ft_strlen(b));
 }
 

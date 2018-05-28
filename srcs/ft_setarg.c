@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 14:04:25 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/24 21:21:28 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/28 19:56:00 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int		build_arg(const char *format, char *buffer,
 	if (argument->type == 'c' && !PTF_LEN_L(argument->l_modifier))
 		ft_conv_char(buffer, argument, (char)value);
 	if (argument->type == 'C')
-		if(ft_conv_wchar(buffer, argument, (int)value) == -1)
+		if (ft_conv_wchar(buffer, argument, (int)value) == -1)
 			return (-1);
-	if (TYPE == 's')
+	if (TYPE == 's' && TYPE != 'S')
 		ft_conv_string(format, buffer, argument, (char *)value);
 	if (TYPE == 'S')
 		return (ft_conv_wstring(buffer, argument, (char *)value));

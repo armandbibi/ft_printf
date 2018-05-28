@@ -6,31 +6,11 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/21 15:06:00 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/28 19:47:21 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-
-static int	add_sign(char *buffer, s_arg *argument)
-{
-	if (argument->is_negative)
-	{
-		write_buffer(&buffer, '-');
-		return (1);
-	}
-	else if (PTF_FLAG_PLUS(argument->flags))
-	{
-		write_buffer(&buffer, '+');
-		return (1);
-	}
-	else if (PTF_FLAG_SPACE(argument->flags))
-	{
-		write_buffer(&buffer, ' ');
-		return (1);
-	}
-	return (0);
-}
 
 static int	add_precision(char *buffer, s_arg *argument, char *tmp)
 {
@@ -109,17 +89,14 @@ int			ft_conv_hexa(char *buffer, s_arg *argument, uintmax_t value)
 	{
 		if (!PTF_FLAG_ZERO(argument->flags))
 			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
-		len += add_sign(&buffer[len], argument);
 		len += add_type(&buffer[len], argument, value);
 		if (PTF_FLAG_ZERO(argument->flags))
 			len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
 	}
 	if (PTF_FLAG_MINUS(argument->flags))
-	{
-		len += add_sign(&buffer[len], argument);
 		len += add_type(&buffer[len], argument, value);
-	}
 	len += add_precision(&buffer[len], argument, tmp);
 	if (PTF_FLAG_MINUS(argument->flags))
 		len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
+	return (0);
 }

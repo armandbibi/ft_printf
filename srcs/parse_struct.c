@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:58:44 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/23 22:43:58 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/27 12:39:45 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ static int	get_flag(const char *format, s_arg *argument)
 {
 	int i;
 
-	argument->flags = 0;
+	if (!*format)
+		return 0;
 	i = 0;
-	while (*format == '-' || *format == '+' || *format == ' ' ||
-			*format == '#' || *format == '0')
+	while (*format && (*format == '-' || *format == '+' || *format == ' ' ||
+			*format == '#' || *format == '0'))
 	{
 		if (*format == '-')
 			argument->flags |= PTF_FLAG_MINUS(~0);
@@ -61,8 +62,11 @@ static int	get_length_modifier(const char *format, s_arg *argument)
 	int i;
 
 	i = 0;
-	while (*format == 'h' || *format == 'l' || *format == 'L' ||
-			*format == 'q' || *format == 'j' || *format == 'z' ||
+	if (!*format)
+		return (0);
+	while (*format == 'h' || *format == 'l' 
+			|| *format == 'L' || *format == 'q' ||
+			*format == 'j' || *format == 'z' ||
 			*format == 't')
 	{
 		if (*format == 'j')
@@ -88,15 +92,18 @@ static int	get_precision(const char *format, s_arg *argument)
 	int i;
 
 	i = 0;
+	if (!*format)
+		return (0);
 	if (*format != '.')
 	{
+		argument->l_modifier |= PTF_NO_PRE(~0);
 		argument->precision = 1;
 		return (0);
 	}
 	format++;
+	//	if (PTF_FLAG_ZERO(argument->flags))
+	//		PTF_TOGGLE_FLAG(argument->flags, PTF_FLAG_ZERO(argument->flags));
 	argument->precision = ft_atoi(format);
-	if (PTF_FLAG_ZERO(argument->flags))
-		PTF_TOGGLE_FLAG(argument->flags, PTF_FLAG_ZERO(argument->flags));
 	while (format[i] >= '0' && format[i] <= '9')
 		i++;
 	return (i + 1);
@@ -104,6 +111,8 @@ static int	get_precision(const char *format, s_arg *argument)
 
 static int	get_modifier(const char *format, s_arg *argument)
 {
+	if (!*format)
+		return 0;
 	if (*format == 's' || *format == 'S' || *format == 'p' ||
 			*format == 'i' || *format == 'D' || *format == 'd' ||
 			*format == 'o' || *format == 'O' || *format == 'u' ||
@@ -115,6 +124,8 @@ static int	get_modifier(const char *format, s_arg *argument)
 			PTF_TURNON_FLAG(argument->l_modifier, PTF_LEN_LL(PTF_FLAG_ALL));
 		if ((*format == 'c' || *format == 's') && PTF_LEN_L(argument->l_modifier))
 			argument->type -= ' ';
+		if (!PTF_NO_PRE(argument->l_modifier) && PTF_FLAG_ZERO(argument->flags) && *format != '%' && *format != 'c' && *format != 's' && *format != 'S' && *format != 'C')
+			PTF_TOGGLE_FLAG(argument->flags, PTF_FLAG_ZERO(argument->flags));
 		return (2);
 	}
 	else
@@ -128,11 +139,17 @@ int			ft_parse_arg(const char *format, s_arg *argument)
 {
 	int index;
 
+	argument->width = 0;
 	argument->flags = 0;
 	argument->l_modifier = 0;
 	argument->is_negative = 0;
 	argument->precision = 1;
+	argument->type = 0;
+	if (!*format && !format[1])
+		return (1);
 	format++;
+	if (!*format)
+		return (1);
 	index = 0;
 	index += get_flag(format, argument);
 	index += get_width(&format[index], argument);

@@ -6,70 +6,102 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 17:28:56 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/24 21:42:59 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/28 20:01:54 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
+static int	minus_size_wchar(int value)
+{
+	int ret;
+
+	ret = 0;
+	if (value > 0xFFFF)
+		ret = 3;
+	else if (value > 0x7FF)
+		ret = 2;
+	else if (value > 255 || (MB_CUR_MAX != 1 && value > 127))
+		ret = 1;
+	return (ret);
+}
+
+static int	check_value(int *value, s_arg *argument)
+{
+	int tot;
+	int precision;
+
+	tot = 0;
+	precision = argument->precision;
+	while (*value && (PTF_NO_PRE(argument->l_modifier) ||
+				precision > minus_size_wchar(*value) + 1))
+	{
+		if ((*value >= 0xd800 && *value <= 0xdfff) ||
+				(*value > 255 && MB_CUR_MAX == 1)
+				|| *value < 0 || *value > 0x10FFFF)
+			return (-1);
+		tot = tot + (minus_size_wchar(*value) + 1);
+		precision -= (minus_size_wchar(*value) + 1);
+		value++;
+	}
+	return (tot);
+}
+
 static int	add_width(char **buffer, s_arg *argument, int *value)
 {
-	char *b;
-	int t;
 	int total;
 
-	t = 0;
-	total = 0;
-	while (value[t] != 0)
-	{
-		if (t >0b11111111 )
-			total++;
-		if (t > 0b11111111111)
-			total++;
-		if (t >  0b1111111111111111)
-			total++;
-		t++;
-	}
-	b = *buffer;
-	if (!PTF_FLAG_MINUS(argument->flags))
-	{
-		if (argument->precision != 1 &&
-				argument->precision <= total)
-			argument->width -= argument->precision;
-		else
-			argument->width -= total;
-	}
+	total = check_value(value, argument);
+	if (!PTF_NO_PRE(argument->l_modifier) && argument->precision < total)
+		argument->width -= (argument->precision - 1);
 	else
 		argument->width -= total;
 	while (argument->width-- > 0)
-		write_buffer(buffer, ' ');
-	return (ft_strlen(b));
+	{
+		if (PTF_FLAG_ZERO(argument->flags))
+			write_buffer(buffer, '0');
+		else
+			write_buffer(buffer, ' ');
+	}
+	return (0);
+}
+
+static int	*add_null(int *str)
+{
+	str[0] = '(';
+	str[1] = 'n';
+	str[2] = 'u';
+	str[3] = 'l';
+	str[4] = 'l';
+	str[5] = ')';
+	str[6] = 0;
+	return (str);
 }
 
 int			ft_conv_wstring(char *buffer, s_arg *argument, int *value)
 {
 	int		*b;
-	int		c[8];
-	char 	*saved;
-	int		tot;
+	int		pre;
+	int		null_str[7];
 
-	if (value == NULL)
-		value = c;
+	if (!value)
+		value = add_null(null_str);
+	if (check_value(value, argument) == -1)
+		return (-1);
 	b = value;
-	saved = buffer;
-	tot = -1;
+	pre = argument->precision;
 	if (!PTF_FLAG_MINUS(argument->flags))
 		add_width(&buffer, argument, b);
-	if (argument->precision == 1)
-	{
+	if (PTF_NO_PRE(argument->l_modifier))
 		while (*value)
-			if (stock_value(&buffer, *value++) == -1)
-				return tot;
-	}
+			stock_value(&buffer, *value++);
 	else
-		while (argument->precision-- > 0 && *value)
-			if(stock_value(&buffer, *value++) == -1)
-				return (-1);
+		while (*value && pre >= (minus_size_wchar(*value) + 1))
+		{
+			pre -= (minus_size_wchar(*value) + 1);
+			stock_value(&buffer, *value++);
+		}
 	if (PTF_FLAG_MINUS(argument->flags))
-		add_width(&buffer, argument, saved);
+		add_width(&buffer, argument, b);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 20:24:07 by abiestro          #+#    #+#             */
-/*   Updated: 2018/05/23 21:11:56 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/05/28 19:48:25 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int			ft_conv_integer(char *buffer, s_arg *argument, intmax_t value)
 	char	*t;
 
 	t = tmp;
-//	if (!(check_limits(value, argument, t)))
-		ft_cast_itoa(value, tmp, argument, 10);
+	ft_cast_itoa(value, tmp, argument, 10);
 	len = 0;
 	if (!PTF_FLAG_MINUS(argument->flags))
 	{
@@ -99,4 +98,5 @@ int			ft_conv_integer(char *buffer, s_arg *argument, intmax_t value)
 	len += add_precision(&buffer[len], argument, tmp);
 	if (PTF_FLAG_MINUS(argument->flags))
 		len += add_width(&buffer[len], argument, ft_strlen(tmp), value);
+	return (0);
 }
